@@ -40,9 +40,20 @@ router.post('/upload', function (req, res) {
 router.get('/show', function (req, res) {
     res.sendFile(__dirname + "/uploads/placeholder.jpg")
 });
-router.get('/login', function (req, res) {
-    res.send('login');
+router.post("/login", async (req, res) => {
+    const user = await User.findOne({ email: req.body.email });
+    if (!user) return res.status(400).json({ error: "Email is wrong" });
+    // check for password correctness
+    if (req.body.password !== user.password)
+        return res.status(400).json({ error: "Password is wrong" });
+    res.json({
+        error: null,
+        data: {
+            message: "Login successful",
+        },
+    });
 });
+
 router.get('/logout', function (req, res) {
     res.send('logout');
 });
@@ -55,10 +66,10 @@ router.post("/register", async (req, res) => {
         password: req.body.password,
     });
     // try {
-        const savedUser = await user.save();
-        res.json({ error: null, data: savedUser });
+    const savedUser = await user.save();
+    res.json({ error: null, data: savedUser });
     // } catch (error) {
-        // res.status(400).json({ error });
+    // res.status(400).json({ error });
     // }
 });
 
