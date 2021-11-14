@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        default: "/uploads/placeholder.jpg",
+        default: "placeholder.jpg",
     },
 });
 

@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
+var path = require('path');
 
 // // middleware that is specific to this router
 // router.use(function timeLog(req, res, next) {
@@ -11,7 +12,7 @@ const jwt = require("jsonwebtoken");
 // define the home page route
 
 router.get('/', function (req, res) {
-    res.sendFile(__dirname + '/static/index.html');
+    res.sendFile(path.resolve('static/index.html'));
 });
 router.get('/start', function (req, res) {
     res.send('start');
@@ -24,12 +25,10 @@ router.post("/login", async (req, res) => {
     if (req.body.password !== user.password)
         return res.status(400).json({ error: "Password is wrong" });
 
-    const token = jwt.sign(
-        // payload data
-        {
-            name: user.name,
-            id: user._id,
-        },
+    const token = jwt.sign({
+        name: user.name,
+        id: user._id,
+    },
         "meriam123"
     );
     res.header("auth-token", token).json({
