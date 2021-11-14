@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 const fileUpload = require('express-fileupload');
-const User = require("./models/User");
-
+const User = require("../models/User");
+const jwt = require("jsonwebtoken");
 
 // // middleware that is specific to this router
 // router.use(function timeLog(req, res, next) {
@@ -11,9 +11,7 @@ const User = require("./models/User");
 // });
 // define the home page route
 
-router.get('/', function (req, res) {
-    res.sendFile(__dirname + '/static/index.html');
-});
+
 router.get('/start', function (req, res) {
     res.send('start');
 });
@@ -40,49 +38,11 @@ router.post('/upload', function (req, res) {
 router.get('/show', function (req, res) {
     res.sendFile(__dirname + "/uploads/placeholder.jpg")
 });
-router.post("/login", async (req, res) => {
-    const user = await User.findOne({ email: req.body.email });
-    if (!user) return res.status(400).json({ error: "Email is wrong" });
-    // check for password correctness
-    if (req.body.password !== user.password)
-        return res.status(400).json({ error: "Password is wrong" });
-    var jwt = require('jsonwebtoken');
-
-    const token = jwt.sign(
-        // payload data
-        {
-            name: user.name,
-            id: user._id,
-        },
-        "meriam123"
-    );
-    res.header("auth-token", token).json({
-        error: null,
-        data: {
-            message: "Login successful",
-            token: token
-        },
-    });
-});
 
 router.get('/logout', function (req, res) {
     res.send('logout');
 });
 
-router.post("/register", async (req, res) => {
-    const user = new User({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        email: req.body.email,
-        password: req.body.password,
-    });
-    // try {
-    const savedUser = await user.save();
-    res.json({ error: null, data: savedUser });
-    // } catch (error) {
-    // res.status(400).json({ error });
-    // }
-});
 
 
 module.exports = router;

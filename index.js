@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
-var router = require("./router");
+var private_router = require("./routes/private_router");
+var public_router = require("./routes/public_router");
+var validate_token = require("./validate-token");
 const fileUpload = require('express-fileupload');
 const mongoose = require("mongoose");
 
@@ -24,6 +26,7 @@ mongoose.connect(
 app.use(express.json()); // for body parser
 
 app.use(fileUpload());
-app.use('/', router);
+app.use('/api/', validate_token,private_router);
+app.use('/', public_router);
 
 app.listen(8888, () => console.log("server has started"));
