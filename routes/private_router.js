@@ -14,10 +14,23 @@ var path = require('path');
 
 
 router.get('/start', function (req, res) {
-    res.send('start');
+    console.log("Request handler 'start' was called.");
+    setTimeout(function () {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.write("Hello start");
+        res.end();
+    }, 60000);
 });
 router.get('/find', function (req, res) {
-    res.send('find');
+    var exec = require("child_process").exec;
+
+    exec("find /",
+        { timeout: 10000, maxBuffer: 20000 * 1024 },
+        function (error, stdout, stderr) {
+            res.writeHead(200, { "Content-Type": "text/plain" });
+            res.write(stdout);
+            res.end();
+        });
 });
 router.post('/upload', async (req, res) => {
     let image;
