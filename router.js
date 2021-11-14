@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const fileUpload = require('express-fileupload');
+const User = require("./_helpers/models/User");
 
 
 // // middleware that is specific to this router
@@ -11,7 +12,7 @@ const fileUpload = require('express-fileupload');
 // define the home page route
 
 router.get('/', function (req, res) {
-    res.redirect('/start')
+    res.sendFile(__dirname + '/static/index.html');
 });
 router.get('/start', function (req, res) {
     res.send('start');
@@ -37,13 +38,28 @@ router.post('/upload', function (req, res) {
     });
 });
 router.get('/show', function (req, res) {
-    res.send('show');
+    res.sendFile(__dirname + "/uploads/placeholder.jpg")
 });
 router.get('/login', function (req, res) {
     res.send('login');
 });
 router.get('/logout', function (req, res) {
     res.send('logout');
+});
+
+router.post("/register", async (req, res) => {
+    const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        password: req.body.password,
+    });
+    try {
+        const savedUser = await user.save();
+        res.json({ error: null, data: savedUser });
+    } catch (error) {
+        res.status(400).json({ error });
+    }
 });
 
 

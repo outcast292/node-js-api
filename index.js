@@ -3,6 +3,7 @@ const app = express();
 var router = require("./router");
 const fileUpload = require('express-fileupload');
 
+app.use(express.json()); // for body parser
 
 app.use(fileUpload());
 app.use('/', router);
