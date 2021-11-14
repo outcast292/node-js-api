@@ -17,7 +17,7 @@ function find(response) {
             response.end();
         });
 }
-function upload(response) {
+function upload(request , response) {
     console.log("Request handler 'upload' was called.");
     response.writeHead(200, { "Content-Type": "text/plain" });
     response.write("Hello Upload");
