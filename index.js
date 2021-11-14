@@ -1,14 +1,8 @@
-var server = require("./server");
+const express = require('express');
+const app = express();
 var router = require("./router");
-var requestHandlers = require("./requestHandlers");
-var handle = {}
-handle["/"] = requestHandlers.start;
-handle["/start"] = requestHandlers.start;
-handle["/upload"] = requestHandlers.upload;
-handle["/find"] = requestHandlers.find;
-handle["/show"] = requestHandlers.show;
-handle["/login"] = requestHandlers.login;
-handle["/logout"] = requestHandlers.logout;
 
 
-server.start(router.route, handle);
+app.use('/', router);
+
+app.listen(8888, () => console.log("server has started"));
