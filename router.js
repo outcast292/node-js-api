@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const fileUpload = require('express-fileupload');
-const User = require("./_helpers/models/User");
+const User = require("./models/User");
 
 
 // // middleware that is specific to this router
@@ -54,12 +54,12 @@ router.post("/register", async (req, res) => {
         email: req.body.email,
         password: req.body.password,
     });
-    try {
+    // try {
         const savedUser = await user.save();
         res.json({ error: null, data: savedUser });
-    } catch (error) {
-        res.status(400).json({ error });
-    }
+    // } catch (error) {
+        // res.status(400).json({ error });
+    // }
 });
 
 
