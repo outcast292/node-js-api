@@ -1,17 +1,8 @@
 var express = require('express');
 var router = express.Router();
-const fileUpload = require('express-fileupload');
 const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 var path = require('path');
-
-// // middleware that is specific to this router
-// router.use(function timeLog(req, res, next) {
-//   console.log('Time: ', Date.now());
-//   next();
-// });
-// define the home page route
-
 
 router.get('/start', function (req, res) {
     console.log("Request handler 'start' was called.");
