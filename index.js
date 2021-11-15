@@ -5,6 +5,7 @@ var public_router = require("./routes/public_router");
 var validate_token = require("./validate-token");
 const fileUpload = require('express-fileupload');
 const mongoose = require("mongoose");
+const cors = require('cors');
 
 
 
@@ -24,7 +25,9 @@ mongoose.connect(
 
 
 app.use(express.json()); // for body parser
-
+app.use(cors({
+    origin: '*'
+}));
 app.use(fileUpload());
 app.use('/api/', validate_token,private_router);
 app.use('/', public_router);
