@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 const User = require("../models/User");
-const jwt = require("jsonwebtoken");
 var path = require('path');
 
 router.get('/start', function (req, res) {
@@ -44,6 +43,7 @@ router.post('/upload', async (req, res) => {
         res.send('File uploaded!');
     });
 });
+
 router.get('/show', async (req, res) => {
     const user = await User.findOne({ id: req.user.id });
     res.sendFile(path.resolve("uploads/" + user.image))
@@ -52,7 +52,5 @@ router.get('/show', async (req, res) => {
 router.get('/logout', function (req, res) {
     res.send('logout');
 });
-
-
 
 module.exports = router;

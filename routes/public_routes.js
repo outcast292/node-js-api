@@ -24,7 +24,6 @@ router.post("/login", async (req, res) => {
     // check for password correctness
     if (req.body.password !== user.password)
         return res.status(400).json({ error: "Password is wrong" });
-
     const token = jwt.sign({
         name: user.name,
         id: user._id,
